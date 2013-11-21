@@ -56,7 +56,7 @@ def maintainer_label(maintainer):
     else:
         return ''
 def element(name, avatar, maintainer, url):
-    return '''<div class="span4" style="text-align: center"><a href="%s" target="_blank"><img width="%s" src="%s" alt="%s"></a><br><a href="%s" target="_blank">%s</a>%s</div>'''%(url, IMG_WIDTH, avatar, name, url, name, maintainer_label(maintainer))
+    return '''<div class="span4" style="text-align: center"><a href="%s" target="_blank"><img class="contributor-image" width="%s" src="%s" alt="%s"></a><br><a class="contributor-label" href="%s" target="_blank">%s</a>%s</div>'''%(url, IMG_WIDTH, avatar, name, url, name, maintainer_label(maintainer))
 
 def go(fname):
     output = preamble()
