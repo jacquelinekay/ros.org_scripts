@@ -33,12 +33,12 @@
 from __future__ import print_function
 import yaml
 import sys
+import cgi
 
 USAGE = 'USAGE: collaborators_to_html.py <collaborators.yaml>'
 
 NUM_COLUMNS = 3
-IMG_WIDTH = "80px"
-BADGE_WIDTH = "32px"
+IMG_WIDTH = "80"
 
 def preamble():
     return '''<h2 class="widgettitle">Contributors</h2><p>ROS is an open source project, and the code within it is the result of the combined efforts of an international community.  Listed below are the people who have contributed code to the core ROS packages, with the package maintainers among them called out for special recognition.  Thanks to you all!'''
@@ -71,7 +71,7 @@ def go(fname):
         name = v['name']
         if not name:
             name = k
-        avatar = v['avatar']
+        avatar = cgi.escape(v['avatar'])
         maintainer = v['maintainer']
         url = github_url(k)
         output += element(name, avatar, maintainer, url)
