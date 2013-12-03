@@ -61,7 +61,16 @@ def element(name, avatar, maintainer, url):
 def go(fname):
     output = preamble()
     col = 0
-    d = yaml.load(open(fname))
+    d1 = yaml.load(open(fname))
+    # Build a new dictionary, indexed by the best name we have (either
+    # actual name or user id)
+    d = dict()
+    for k, v in d1.iteritems():
+        v = d1[k]
+        name = v['name']
+        if not name:
+            name = k
+        d[name] = v
     keys = d.keys();
     keys.sort()
     for k in keys:
