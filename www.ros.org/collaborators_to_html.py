@@ -67,22 +67,22 @@ def go(fname):
     d = dict()
     for k, v in d1.iteritems():
         v = d1[k]
+        # Preserve the username, which we'll need to link to GitHub
+        v['user'] = k
         name = v['name']
         if not name:
             name = k
         d[name] = v
     keys = d.keys();
-    keys.sort()
+    keys.sort(key=lambda s: s.lower())
     for k in keys:
         v = d[k]
         if col == 0:
             output += start_row()
-        name = v['name']
-        if not name:
-            name = k
+        name = k
         avatar = cgi.escape(v['avatar'])
         maintainer = v['maintainer']
-        url = github_url(k)
+        url = github_url(v['user'])
         output += element(name, avatar, maintainer, url)
         if col == (NUM_COLUMNS - 1):
             output += end_row()
