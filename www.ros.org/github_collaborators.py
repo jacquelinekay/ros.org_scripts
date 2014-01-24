@@ -44,8 +44,8 @@ maintainers = set()
 
 ind = rosdistro.get_index(rosdistro.get_index_url())
 for d in ind.distributions:
-    release_cache = rosdistro.get_release_cache(ind, d)
-    for p, x in release_cache.package_xmls.items():
+    distribution_cache = rosdistro.get_distribution_cache(ind, d)
+    for p, x in distribution_cache.release_package_xmls.items():
         pkg = catkin_pkg.package.parse_package_string(x)
         for p in pkg.maintainers:
             #print p.email, p.name
