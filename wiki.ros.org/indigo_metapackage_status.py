@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Generates wiki formatted output, which summarizes the status of the indigo variants
 using the hydro distribution cache and accounting for chanages (like ros_comm_msgs).
@@ -103,7 +105,8 @@ for key in keys:
         if pkg_xml:
             try:
                 pkg = parse_package_string(pkg_xml)
-                maintainer = '<<BR>>'.join(['[[mailto:%s|%s]]' % (m.email, m.name) for m in pkg.maintainers])
+                maintainer = '<<BR>>'.join(['<<MailTo(%s, %s)>>' % (m.email.replace('@', ' AT ').replace('.', ' DOT '), m.name) for m in pkg.maintainers])
+                # maintainer = '<<BR>>'.join(['[[mailto:%s|%s]]' % (m.email, m.name) for m in pkg.maintainers])
             except InvalidPackage:
                 maintainer = ''
         mp_repo_sets[key][repo][dep] = maintainer
