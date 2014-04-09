@@ -73,12 +73,16 @@ for mp in keys:
 repos_by_package = {}
 repo_mstatuses = {}
 for name, repo in dist_file.repositories.items():
+    if name == 'geometry_angles_utils':
+        indigo_name = 'angles'
+    else:
+        indigo_name = name
     if not repo.release_repository:
         continue
-    if name not in indigo_dist_file.repositories:
+    if indigo_name not in indigo_dist_file.repositories:
         repo_mstatuses[name] = 'not released'
     else:
-        indigo_repo = indigo_dist_file.repositories[name]
+        indigo_repo = indigo_dist_file.repositories[indigo_name]
         if indigo_repo.status:
             repo_mstatuses[name] = indigo_repo.status
     for pkg in repo.release_repository.package_names:
@@ -146,3 +150,6 @@ for key in keys:
             if dep not in keys:
                 print("||<bgcolor=\"#eee\"> ==> [[" + dep + "]]||" + repo_colors[repo] + " ||" + repo_pkgs[dep] + "||")
     print()
+
+import time
+print("''Generated: {0}''".format(time.strftime("%c")))
