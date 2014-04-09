@@ -142,8 +142,13 @@ for key in keys:
         if 'not released' in status:
             repo_colors[repo] = '<bgcolor="#ff6961"> '
             status = repo_colors[repo] + status
-        print("||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| ||")
         repo_pkgs = mp_repo_sets[key][repo]
+        try:
+            print("||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| " + repo_pkgs[repo] + "||")
+        except KeyError:
+            print("||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| ||")
+        except UnicodeEncodeError:
+            print("||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| ||")
         if len(repo_pkgs) == 1 and list(repo_pkgs.keys())[0] == repo:
             continue
         for dep in sorted(repo_pkgs.keys()):
