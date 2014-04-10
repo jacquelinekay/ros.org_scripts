@@ -143,16 +143,15 @@ for key in keys:
             repo_colors[repo] = '<bgcolor="#ff6961"> '
             status = repo_colors[repo] + status
         repo_pkgs = mp_repo_sets[key][repo]
+        repo_msg = "||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| "
         try:
-            print("||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| " + repo_pkgs[repo] + "||")
-        except KeyError:
-            print("||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| ||")
-        except UnicodeEncodeError:
-            print("||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| ||")
+            print(repo_msg + repo_pkgs[repo] + "||")
+        except (KeyError, UnicodeEncodeError):
+            print(repo_msg + "||")
         if len(repo_pkgs) == 1 and list(repo_pkgs.keys())[0] == repo:
             continue
         for dep in sorted(repo_pkgs.keys()):
-            if dep not in keys:
+            if dep not in keys and dep != repo:
                 print("||<bgcolor=\"#eee\"> ==> [[" + dep + "]]||" + repo_colors[repo] + " ||" + repo_pkgs[dep] + "||")
     print()
 
