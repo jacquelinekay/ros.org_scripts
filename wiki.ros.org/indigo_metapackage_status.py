@@ -130,17 +130,24 @@ for key in keys:
         if 'unmaintained' in status:
             repo_colors[repo] = '<bgcolor="#fdfd96"> '
             status = repo_colors[repo] + status
-        if 'unmaintained' not in status and 'maintained' in status:
+        elif 'unmaintained' not in status and 'maintained' in status:
             repo_colors[repo] = '<bgcolor="#77dd77"> '
             status = repo_colors[repo] + status
-        if 'unknown' in status:
+        elif 'developed' in status:
+            repo_colors[repo] = '<bgcolor="#77dd77"> '
+            status = repo_colors[repo] + status
+        elif 'unknown' in status:
             repo_colors[repo] = '<bgcolor="#ddd"> '
             status = repo_colors[repo] + status
-        if 'end-of-life' in status:
+        elif 'end-of-life' in status:
             repo_colors[repo] = '<bgcolor="#ff6961"> '
             status = repo_colors[repo] + status
-        if 'not released' in status:
+        elif 'not released' in status:
             repo_colors[repo] = '<bgcolor="#ff6961"> '
+            status = repo_colors[repo] + status
+        else:
+            # Set unknown if not matched any of the above
+            repo_colors[repo] = '<bgcolor="#ddd"> '
             status = repo_colors[repo] + status
         repo_pkgs = mp_repo_sets[key][repo]
         repo_msg = "||<bgcolor=\"#eee\">[[" + repo + "]]||" + status + "|| "
@@ -152,7 +159,9 @@ for key in keys:
             continue
         for dep in sorted(repo_pkgs.keys()):
             if dep not in keys and dep != repo:
-                print("||<bgcolor=\"#eee\"> ==> [[" + dep + "]]||" + repo_colors[repo] + " ||" + repo_pkgs[dep] + "||")
+                print("||<bgcolor=\"#eee\"> ==> [[" + dep +
+                      "]]||" + repo_colors.get(repo, '<bgcolor="#ddd"> ') +
+                      " ||" + repo_pkgs[dep] + "||")
     print()
 
 import time
