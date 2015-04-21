@@ -87,6 +87,9 @@ for name, repo in dist_file.repositories.items():
             repo_mstatuses[name] = jade_repo.status
     for pkg in repo.release_repository.package_names:
         repos_by_package[pkg] = name
+repos_by_package['map_msgs'] = 'navigation_msgs'
+repos_by_package['move_base_msgs'] = 'navigation_msgs'
+repo_mstatuses['navigation_msgs'] = jade_dist_file.repositories['navigation_msgs'].status
 repos_by_package.update(dict([(k, k) for k in keys]))
 
 # Group packages by repo
