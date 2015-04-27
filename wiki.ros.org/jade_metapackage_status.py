@@ -13,6 +13,7 @@ containing the metapackages repo and run this script.
 """
 
 from __future__ import print_function
+from __future__ import unicode_literals
 
 from catkin_pkg.packages import find_packages
 from catkin_pkg.package import InvalidPackage
@@ -112,6 +113,10 @@ for key in keys:
                 maintainer = '<<BR>>'.join(['<<MailTo(%s, %s)>>' % (
                     m.email.replace('@', ' AT ').replace('.', ' DOT '), m.name) for m in pkg.maintainers]
                 )
+                try:
+                    maintainer = maintainer.encode('ascii', 'xmlcharrefreplace')
+                except UnicodeError as exc:
+                    print(exc)
             except InvalidPackage:
                 maintainer = ''
         mp_repo_sets[key][repo][dep] = maintainer
