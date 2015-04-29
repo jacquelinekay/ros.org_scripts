@@ -143,7 +143,7 @@ for key in keys:
             repo_colors[repo] = '<bgcolor="#77dd77"> '
             status = repo_colors[repo] + status
         elif 'end-of-life' in status:
-            repo_colors[repo] = '<bgcolor="#ff6961"> '
+            repo_colors[repo] = '<bgcolor="#ffa500"> '
             status = repo_colors[repo] + status
         elif 'not released' in status:
             repo_colors[repo] = '<bgcolor="#ff6961"> '
