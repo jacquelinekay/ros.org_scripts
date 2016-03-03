@@ -36,14 +36,15 @@ valid_distribution_keys.sort()
 parser = argparse.ArgumentParser(
     description='Generate wiki formatted output for the Maintenance status page.')
 parser.add_argument(
-    '--current', metavar='current_distro', type=str, nargs='?',
-    help='The target distribution to generate a Wiki page for.', default=valid_distribution_keys[-1])
+    '--current', metavar='current_distribution', type=str,
+    help='The target distribution to generate a Wiki page for.',
+    default=valid_distribution_keys[-1])
 parser.add_argument(
-    '--previous', metavar='prev_distro', type=str, nargs='?',
-    help='The distribution released before the target distribution.', default=valid_distribution_keys[-2])
+    '--previous', metavar='prev_distribution', type=str,
+    help='The distribution released before the target distribution.',
+    default=valid_distribution_keys[-2])
 parser.add_argument(
-  '--path', metavar='path', type=str, nargs='?',
-  help='The path to the ros/metapackages Git repo.', default='/tmp/mp_ws/src')
+    'path', metavar='path', type=str, help='The path to the ros/metapackages Git repo.')
 args = parser.parse_args()
 cur_dist_key = args.current
 prev_dist_key = args.previous
