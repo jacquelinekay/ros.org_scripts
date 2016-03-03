@@ -110,7 +110,8 @@ for name, repo in dist_file.repositories.items():
         repos_by_package[pkg] = name
 repos_by_package['map_msgs'] = 'navigation_msgs'
 repos_by_package['move_base_msgs'] = 'navigation_msgs'
-repo_mstatuses['navigation_msgs'] = cur_dist_file.repositories['navigation_msgs'].status
+if 'navigation_msgs' in cur_dist_file.repositories:
+    repo_mstatuses['navigation_msgs'] = cur_dist_file.repositories['navigation_msgs'].status
 repos_by_package.update(dict([(k, k) for k in keys]))
 
 # Group packages by repo
