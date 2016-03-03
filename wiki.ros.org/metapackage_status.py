@@ -26,20 +26,27 @@ from rosdistro import get_index_url
 from rosdistro.dependency_walker import DependencyWalker
 import argparse
 
+
+# Get packages which make up each layer of the veriants
+mp_sets = {}
+index = get_index(get_index_url())
+valid_distribution_keys = index.distributions.keys()
+valid_distribution_keys.sort()
+
 parser = argparse.ArgumentParser(
     description='Generate wiki formatted output for the Maintenance status page.')
 parser.add_argument(
-    'current_distro', metavar='current_distro', type=str, nargs='?',
-    help='The distribution to generate a Wiki page for.', default='kinetic')
+    '--current', metavar='current_distro', type=str, nargs='?',
+    help='The target distribution to generate a Wiki page for.', default=valid_distribution_keys[-1])
 parser.add_argument(
-    'prev_distro', metavar='prev_distro', type=str, nargs='?',
-    help='The distribution to generate a Wiki page for.', default='indigo')
+    '--previous', metavar='prev_distro', type=str, nargs='?',
+    help='The distribution released before the target distribution.', default=valid_distribution_keys[-2])
 parser.add_argument(
-  'path', metavar='path', type=str, nargs='?',
+  '--path', metavar='path', type=str, nargs='?',
   help='The path to the ros/metapackages Git repo.', default='/tmp/mp_ws/src')
 args = parser.parse_args()
-cur_dist_key = args.current_distro
-prev_dist_key = args.prev_distro
+cur_dist_key = args.current
+prev_dist_key = args.previous
 
 path = args.path
 
@@ -56,14 +63,11 @@ keys = [
     'desktop_full',
 ]
 
-# Get packages which make up each layer of the veriants
-mp_sets = {}
-index = get_index(get_index_url())
 prev_dist = get_cached_distribution(index, prev_dist_key)
 cur_dist = get_cached_distribution(index, cur_dist_key)
 dist_file = get_distribution_file(index, prev_dist_key)
 cur_dist_file = get_distribution_file(index, cur_dist_key)
-dw = DependencyWalker(prev_distro)
+dw = DependencyWalker(prev_dist)
 for mp in keys:
     # print("Fetching deps for: ", mp)
     deps = list(set(metapackages[mp].run_depends))
@@ -106,7 +110,7 @@ for name, repo in dist_file.repositories.items():
         repos_by_package[pkg] = name
 repos_by_package['map_msgs'] = 'navigation_msgs'
 repos_by_package['move_base_msgs'] = 'navigation_msgs'
-repo_mstatuses['navigation_msgs'] = cur_dist_dist_file.repositories['navigation_msgs'].status
+repo_mstatuses['navigation_msgs'] = cur_dist_file.repositories['navigation_msgs'].status
 repos_by_package.update(dict([(k, k) for k in keys]))
 
 # Group packages by repo
